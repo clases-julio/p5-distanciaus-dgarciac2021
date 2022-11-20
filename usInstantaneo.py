@@ -29,21 +29,26 @@ def callbackExit(signal, frame): # signal and frame when the interrupt was execu
     GPIO.cleanup() # Clean GPIO resources before exit.
     sys.exit(0)
 
+def measure(echoPin = PIN_ECHO, triggerPin = PIN_TRIGGER):
+    GPIO.output(PIN_TRIGGER, GPIO.HIGH)
+    time.sleep(TRIGGER_TIME)
+    GPIO.output(PIN_TRIGGER, GPIO.LOW)
+
+    while GPIO.input(PIN_ECHO)==0:
+        inicioPulso = time.time()
+    while GPIO.input(PIN_ECHO)==1:
+        finPulso = time.time()
+
+    duracionPulso = finPulso - inicioPulso
+    return round(duracionPulso * 17150, 2)
+
+def refreshData(data):
+    print("                                        ", end="\r")
+    print("Distancia: ", data, " cm", end="\r")
+
 def main():
     while True:
-        GPIO.output(PIN_TRIGGER, GPIO.HIGH)
-        time.sleep(TRIGGER_TIME)
-        GPIO.output(PIN_TRIGGER, GPIO.LOW)
-
-        while GPIO.input(PIN_ECHO)==0:
-            inicioPulso = time.time()
-        while GPIO.input(PIN_ECHO)==1:
-            finPulso = time.time()
-
-        duracionPulso = finPulso - inicioPulso
-        distancia = round(duracionPulso * 17150, 2)
-        print("                                        ", end="\r")
-        print("Distancia: ", distancia, " cm", end="\r")
+        refreshData(measure())
 
         signal.signal(signal.SIGINT, callbackExit) # callback for CTRL+C
 
