@@ -29,17 +29,19 @@ GPIO.output(PIN_B, GPIO.LOW)
 
 def callbackExit(signal, frame): # signal and frame when the interrupt was executed.
     GPIO.cleanup() # Clean GPIO resources before exit.
+    echo.stop()
     sys.exit(0)
 
 def refreshData(data):
     print("                                        ", end="\r")
-    print("Distancia: ", data, " cm", end="\r")
+    print("Distancia: ", round(data, 2), " cm", end="\r")
 
 def main():
-    averageOf = 10
-    result = echo.read('cm', averageOf)
-    print('Average: {:.2f} mm'.format(result))
-    signal.signal(signal.SIGINT, callbackExit) # callback for CTRL+C
+    while True:
+        signal.signal(signal.SIGINT, callbackExit) # callback for CTRL+C
+        time.sleep(0.10)
+        result, samples = echo.samples(10)
+        refreshData(result)
 
 if __name__ == "__main__":
     main()
