@@ -31,57 +31,36 @@ colors = {"red": 4, "green": 2, "blue": 1, "cyan": 3, "magenta": 5, "yellow": 6,
 
 def callbackExit(signal, frame): # signal and frame when the interrupt was executed.
     GPIO.cleanup() # Clean GPIO resources before exit.
-    echo.stop()
     sys.exit(0)
 
 def refreshData(data):
     print("                                        ", end="\r")
     print("Distancia: ", round(data, 2), " cm", end="\r")
 
-def turnOff():
-   setLED("black")
-
-def setLED(color, mode = "on"):
+def setLED(color):
     rValue, gValue, bValue = bin(colors[color])[2:].zfill(3)
 
     rValue, gValue, bValue = bool(int(rValue)), bool(int(gValue)), bool(int(bValue))
-
-    if color != "black":
-        if mode == "off":
-            if rValue: rValue = not rValue
-            else: rValue = GPIO.input(PIN_R)
-            if gValue: gValue = not gValue
-            else: gValue = GPIO.input(PIN_G)
-            if bValue: bValue = not bValue
-            else: bValue = GPIO.input(PIN_B)
-
-        if mode == "on":
-            if rValue: pass
-            else: rValue = GPIO.input(PIN_R)
-            if gValue: pass
-            else: gValue = GPIO.input(PIN_G)
-            if bValue: pass
-            else: bValue = GPIO.input(PIN_B)
 
     GPIO.output(PIN_R, rValue)
     GPIO.output(PIN_G, gValue)
     GPIO.output(PIN_B, bValue)
 
 def driveLed(distance):
-    setLED("black")
-    if(distance <= 40.0):
-        setLED("red")
-    elif(distance <= 100.0):
-        setLED("yellow")
-    else:
-        setLED("green")
+    if (echo.error_code == 0):
+        if(distance <= 10.0):
+            setLED("red")
+        elif(distance <= 20.0):
+            setLED("yellow")
+        else:
+            setLED("green")
+    else: setLED("black")
 
 def main():
     while True:
-        
         time.sleep(0.06)
         result, samples = echo.samples(10)
-        #refreshData(result)
+        refreshData(result)
         driveLed(result)
         signal.signal(signal.SIGINT, callbackExit) # callback for CTRL+C
 
