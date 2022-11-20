@@ -49,23 +49,23 @@ def setLED(color, mode = "on"):
     if color != "black":
         if mode == "off":
             if rValue: rValue = not rValue
-            else: rValue = GPIO.input(redPin)
+            else: rValue = GPIO.input(PIN_R)
             if gValue: gValue = not gValue
-            else: gValue = GPIO.input(greenPin)
+            else: gValue = GPIO.input(PIN_G)
             if bValue: bValue = not bValue
-            else: bValue = GPIO.input(bluePin)
+            else: bValue = GPIO.input(PIN_B)
 
         if mode == "on":
             if rValue: pass
-            else: rValue = GPIO.input(redPin)
+            else: rValue = GPIO.input(PIN_R)
             if gValue: pass
-            else: gValue = GPIO.input(greenPin)
+            else: gValue = GPIO.input(PIN_G)
             if bValue: pass
-            else: bValue = GPIO.input(bluePin)
+            else: bValue = GPIO.input(PIN_B)
 
-    GPIO.output(redPin, rValue)
-    GPIO.output(greenPin, gValue)
-    GPIO.output(bluePin, bValue)
+    GPIO.output(PIN_R, rValue)
+    GPIO.output(PIN_G, gValue)
+    GPIO.output(PIN_B, bValue)
 
 def driveLed(distance):
     setLED("black")
