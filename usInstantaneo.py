@@ -42,6 +42,7 @@ def main():
 
         duracionPulso = finPulso - inicioPulso
         distancia = round(duracionPulso * 17150, 2)
+        print("                                        ", end="\r")
         print("Distancia: ", distancia, " cm", end="\r")
 
         signal.signal(signal.SIGINT, callbackExit) # callback for CTRL+C
