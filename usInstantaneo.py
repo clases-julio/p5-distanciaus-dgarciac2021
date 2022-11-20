@@ -27,6 +27,8 @@ GPIO.output(PIN_R, GPIO.LOW)
 GPIO.output(PIN_G, GPIO.LOW)
 GPIO.output(PIN_B, GPIO.LOW)
 
+colors = {"red": 4, "green": 2, "blue": 1, "cyan": 3, "magenta": 5, "yellow": 6, "white": 7, "black": 0}
+
 def callbackExit(signal, frame): # signal and frame when the interrupt was executed.
     GPIO.cleanup() # Clean GPIO resources before exit.
     echo.stop()
@@ -36,12 +38,52 @@ def refreshData(data):
     print("                                        ", end="\r")
     print("Distancia: ", round(data, 2), " cm", end="\r")
 
+def turnOff():
+   setLED("black")
+
+def setLED(color, mode = "on"):
+    rValue, gValue, bValue = bin(colors[color])[2:].zfill(3)
+
+    rValue, gValue, bValue = bool(int(rValue)), bool(int(gValue)), bool(int(bValue))
+
+    if color != "black":
+        if mode == "off":
+            if rValue: rValue = not rValue
+            else: rValue = GPIO.input(redPin)
+            if gValue: gValue = not gValue
+            else: gValue = GPIO.input(greenPin)
+            if bValue: bValue = not bValue
+            else: bValue = GPIO.input(bluePin)
+
+        if mode == "on":
+            if rValue: pass
+            else: rValue = GPIO.input(redPin)
+            if gValue: pass
+            else: gValue = GPIO.input(greenPin)
+            if bValue: pass
+            else: bValue = GPIO.input(bluePin)
+
+    GPIO.output(redPin, rValue)
+    GPIO.output(greenPin, gValue)
+    GPIO.output(bluePin, bValue)
+
+def driveLed(distance):
+    setLED("black")
+    if(distance <= 40.0):
+        setLED("red")
+    elif(distance <= 100.0):
+        setLED("yellow")
+    else:
+        setLED("green")
+
 def main():
     while True:
-        signal.signal(signal.SIGINT, callbackExit) # callback for CTRL+C
-        time.sleep(0.10)
+        
+        time.sleep(0.06)
         result, samples = echo.samples(10)
-        refreshData(result)
+        #refreshData(result)
+        driveLed(result)
+        signal.signal(signal.SIGINT, callbackExit) # callback for CTRL+C
 
 if __name__ == "__main__":
     main()
