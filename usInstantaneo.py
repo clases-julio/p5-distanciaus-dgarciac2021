@@ -23,24 +23,28 @@ GPIO.output(PIN_R, GPIO.LOW)
 GPIO.output(PIN_G, GPIO.LOW)
 GPIO.output(PIN_B, GPIO.LOW)
 
-TRIGGER_TIME = 0.00001
+TRIGGER_TIME = 10000
 
 def callbackExit(signal, frame): # signal and frame when the interrupt was executed.
     GPIO.cleanup() # Clean GPIO resources before exit.
     sys.exit(0)
 
-def measure(echoPin = PIN_ECHO, triggerPin = PIN_TRIGGER):
-    GPIO.output(PIN_TRIGGER, GPIO.HIGH)
-    time.sleep(TRIGGER_TIME)
-    GPIO.output(PIN_TRIGGER, GPIO.LOW)
+def measure(measures = 5, echoPin = PIN_ECHO, triggerPin = PIN_TRIGGER):
+    measureSum = 0
 
-    while GPIO.input(PIN_ECHO)==0:
-        inicioPulso = time.time()
-    while GPIO.input(PIN_ECHO)==1:
-        finPulso = time.time()
+    for measue in range(0, measures): 
+        GPIO.output(PIN_TRIGGER, GPIO.HIGH)
+        time.nanosleep(TRIGGER_TIME)
+        GPIO.output(PIN_TRIGGER, GPIO.LOW)
 
-    duracionPulso = finPulso - inicioPulso
-    return round(duracionPulso * 17150, 2)
+        while GPIO.input(PIN_ECHO)==0:
+            inicioPulso = time.time()
+        while GPIO.input(PIN_ECHO)==1:
+            finPulso = time.time()
+
+        measureSum = measureSum + ((finPulso - inicioPulso) * 17150)
+
+    return round(measureSum/measures, 2)
 
 def refreshData(data):
     print("                                        ", end="\r")
