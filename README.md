@@ -25,7 +25,7 @@ And this is the real circuit![^1]
 
 ## Code
 
-This time there is nothing really worth to mention here, since all procedures used in this exercise where documented on previous exercises, like [p4](https://github.com/clases-julio/p4-encoderoptico-dgarciac2021) or [p2](https://github.com/clases-julio/p2-gpio-ledrgb-dgarciac2021)
+This time there is nothing really worth to mention here, since all particular procedures used in this exercise were documented on previous exercises, like [p4](https://github.com/clases-julio/p4-encoderoptico-dgarciac2021) or [p2](https://github.com/clases-julio/p2-gpio-ledrgb-dgarciac2021)
 
 As for the [library](https://github.com/clases-julio/p5-distanciaus-dgarciac2021/wiki/Bluetin-Python-Echo) used, there is no fancy things beyond the examples that the very library provides.
 
