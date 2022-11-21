@@ -73,7 +73,7 @@ for button in buttons:
 
 This is the result! Pretty nice, isn't it?
 
-![Circuit test](./doc/img/circuit-test.gif)
+![Circuit test](./doc/img/distanceSensorDemo.gif)
 
 Actually, the behaviour is the same in all the implementations.
 
