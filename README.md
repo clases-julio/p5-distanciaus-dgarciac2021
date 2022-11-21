@@ -19,7 +19,7 @@ This is an schematic made with [Fritzing](https://fritzing.org/):
 
 ![Schematic](./doc/img/schematic.png)
 
-And this is the real circuit!
+And this is the real circuit![^1]
 
 ![aerial view](./doc/img/aerial-view.jpg)
 
@@ -30,3 +30,5 @@ And this is the real circuit!
 This is the result! Pretty nice, isn't it?
 
 ![Circuit test](./doc/img/distanceSensorDemo.gif)
+
+[^1]: In the real circuit two LEDs are used in order to reduce the overall brightness of each of them since the current provided by the GPIO will be equally distributed between them.
