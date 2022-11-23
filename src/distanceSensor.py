@@ -34,7 +34,7 @@ PIN_B = 18
 
 # Calibrate sensor with initial speed of sound m/s value 
 SPEED_OF_SOUND = 343
-# nitialise Sensor with pins, speed of sound.
+# Initialise Sensor with pins, speed of sound.
 echo = Echo(PIN_TRIGGER, PIN_ECHO, SPEED_OF_SOUND)
 
 GPIO.setup(PIN_R, GPIO.OUT)
